@@ -4,6 +4,9 @@ import { app } from '../index';
 import { prisma } from '../lib/prisma';
 import { sign } from 'jsonwebtoken';
 
+// Define o ambiente como teste
+process.env.NODE_ENV = 'test';
+
 describe('Tarefas', () => {
   let authToken: string;
   let userId: number;

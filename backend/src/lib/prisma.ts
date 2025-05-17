@@ -1,17 +1,20 @@
 import { PrismaClient } from '../generated/prisma'
 
-export const prisma = new PrismaClient();
+// Determinar qual URL do banco de dados usar com base no ambiente
+const databaseUrl = process.env.NODE_ENV === 'test' 
+  ? (process.env.DATABASE_TEST_URL || 'mysql://root:senha@localhost:3306/task_manager_test')
+  : process.env.DATABASE_URL;
+
+export const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: databaseUrl,
+    },
+  },
+});
 
 async function main() {
-  // Criar um usuário
-  // const user = await prisma.user.create({
-  //   data: {
-  //     email: 'teste@exemplo.com',
-  //     name: 'Usuario Teste',
-  //     password: 'senha123',
-  //   }
-  // })
-  // console.log('Usuário criado:', user)
+  // Adicione aqui um script de inicialização ou teste
 }
 
 main()

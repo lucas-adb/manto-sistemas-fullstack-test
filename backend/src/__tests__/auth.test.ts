@@ -3,6 +3,9 @@ import request from 'supertest';
 import { app } from '../index';
 import { prisma } from '../lib/prisma';
 
+// Define o ambiente como teste
+process.env.NODE_ENV = 'test';
+
 describe('Autenticação', () => {
   const testUser = {
     name: 'Test User',
