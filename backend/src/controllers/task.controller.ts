@@ -53,10 +53,11 @@ export const updateTask = async (req: Request, res: Response) => {
   const { title, description, completed } = req.body;
   const userId = req.userId;
 
+
   try {
     const task = await prisma.task.update({
-      where: { id: Number(id) },
-      data: { title, description, completed },
+      where: { id: Number(id), userId },
+      data: { title, description, completed},
     });
 
     return res.json(task);

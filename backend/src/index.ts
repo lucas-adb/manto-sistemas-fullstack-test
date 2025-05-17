@@ -1,24 +1,18 @@
-import express from 'express'
-import { Request, Response } from 'express'
-import routes from './routes'
-import { db } from './database'
+import express from 'express';
+import cors from 'cors';
+import routes from './routes';
+import { db } from './database';
 
-const app = express()
-const port = process.env.PORT || 3000
+export const app = express();
+const port = process.env.PORT || 3306;
 
-// Middleware para processar JSON no corpo das requisições
-app.use(express.json())
-
-// Rotas de autenticação
+app.use(cors());
+app.use(express.json());
 app.use(routes);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Olá Mundo!')
-})
-
 app.listen(port, () => {
-  console.log(`App está rodando na porta ${port}`)
-})
+  console.log(`App está rodando na porta ${port}`);
+});
 
 // connection test:
 db.getConnection()
