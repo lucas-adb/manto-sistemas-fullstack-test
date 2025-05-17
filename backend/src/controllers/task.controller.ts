@@ -4,13 +4,14 @@ import { prisma } from '../lib/prisma';
 
 export const createTask = async (req: Request, res: Response) => {
   const { title, description } = req.body;
+  const userId = req.userId;
 
   try {
     const task = await prisma.task.create({
       data: {
         title,
         description,
-        userId: req.userId,
+        userId,
       },
     });
 
@@ -21,7 +22,7 @@ export const createTask = async (req: Request, res: Response) => {
 };
 
 export const getTasks = async (req: Request, res: Response) => {
-  const userId = (req as any).userId;
+  const userId = req.userId;
 
   try {
     const tasks = await prisma.task.findMany({ where: { userId } });

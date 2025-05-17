@@ -6,6 +6,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:coverage-with-db": "npm run setup:test-db && npm run test:coverage",
     "setup:test-db": "ts-node prisma/setup-test-db.ts",
     "test:with-db": "npm run setup:test-db && npm test"
   },
