@@ -9,7 +9,7 @@ process.env.NODE_ENV = 'test';
 describe('Autenticação', () => {
   const testUser = {
     name: 'Test User',
-    email: 'test@example.com',
+    email: 'auth-test@example.com',
     password: 'senha123'
   };
 

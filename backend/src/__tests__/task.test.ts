@@ -18,7 +18,7 @@ describe('Tarefas', () => {
 
     const user = await prisma.user.create({
       data: {
-        email: 'test@example.com',
+        email: 'task-test@example.com',
         password: 'senha123',
         name: 'Test User'
       }
