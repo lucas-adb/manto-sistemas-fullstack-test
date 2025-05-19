@@ -6,7 +6,20 @@ import { db } from './database';
 export const app = express();
 const port = process.env.PORT || 3306;
 
-app.use(cors());
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV === 'production'
+      ? [process.env.FRONTEND_URL].filter(
+          (url): url is string => typeof url === 'string'
+        )
+      : ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+// Configuração avançada do CORS
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(routes);
 
