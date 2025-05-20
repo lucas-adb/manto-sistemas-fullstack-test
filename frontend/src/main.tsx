@@ -5,6 +5,7 @@ import { StyleProvider } from '@ant-design/cssinjs';
 import './index.css';
 import App from './App.tsx';
 import TasksPage from './pages/TasksPage.tsx';
+import '@ant-design/v5-patch-for-react-19';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

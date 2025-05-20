@@ -1,17 +1,39 @@
-import { Button, Form, Input, type FormProps } from 'antd';
+import { Button, Form, Input, notification, type FormProps } from 'antd';
 import { api } from '../lib/api';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Typography } from 'antd';
 import userStore from '../stores/userStore';
 import type { UserData } from '../types/user';
 
 const { Title, Text } = Typography;
 
+// right now, the only used is the error one
+const notificationInfos = {
+  success: {
+    message: 'Success',
+    description: 'You have successfully logged in.',
+  },
+  info: {
+    message: 'Info',
+    description: 'This is an info notification.',
+  },
+  warning: {
+    message: 'Warning',
+    description: 'This is a warning notification.',
+  },
+  error: {
+    message: 'Erro',
+    description: 'Something went wrong. Please try again.',
+  },
+};
+
 type FieldType = {
   name?: string;
   email: string;
   password: string;
 };
+
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 async function mockLoading(timeout: number, log: string) {
   return await new Promise((resolve) => {
@@ -25,9 +47,14 @@ async function mockLoading(timeout: number, log: string) {
 function LoginForm() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationType, setNotificationType] =
+    useState<NotificationType>('success');
+  const [notificationApi, contextHolder] = notification.useNotification();
+
   const { setUserData, userData } = userStore();
 
-  const signIn = async (values: FieldType) => {
+  const signIn = async (values: FieldType): Promise<UserData> => {
     const { email, password } = values;
 
     try {
@@ -43,25 +70,33 @@ function LoginForm() {
       });
 
       setUserData(data as UserData);
+      return data as UserData;
     } catch (error) {
       console.error('Error signing in:', error);
+      throw error;
     }
   };
 
-  const signUp = async (values: FieldType) => {
+  const signUp = async (values: FieldType): Promise<void> => {
     const { email, password, name } = values;
-    const data = await api('/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        name,
-      }),
-    });
-    console.log('data', data);
+    try {
+      const response = await api('/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          name,
+        }),
+      });
+
+      console.log('data', response);
+    } catch (error) {
+      console.error('Error signing up:', error);
+      throw error;
+    }
   };
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
@@ -70,13 +105,24 @@ function LoginForm() {
     try {
       setIsLoading(true);
       await mockLoading(2000, 'Loading...');
+
       if (isRegistering) {
-        await signUp(values);
+        try {
+          await signUp(values);
+          await signIn(values);
+        } catch (error) {
+          console.error('Erro no processo de cadastro/login:', error);
+          openNotificationWithIcon('error');
+        }
       } else {
-        await signIn(values);
+        try {
+          await signIn(values);
+          openNotificationWithIcon('success');
+        } catch (error) {
+          console.error('Erro no login:', error);
+          openNotificationWithIcon('error');
+        }
       }
-    } catch (error) {
-      console.error('Error:', error);
     } finally {
       setIsLoading(false);
     }
@@ -87,8 +133,32 @@ function LoginForm() {
     console.log('Failed:', errorInfo);
   };
 
+  // Função para definir o tipo e mostrar a notificação
+  const openNotificationWithIcon = (type: NotificationType) => {
+    setNotificationType(type);
+    setShowNotification(true);
+  };
+
+  useEffect(() => {
+    if (showNotification) {
+      notificationApi[notificationType]({
+        message: notificationInfos[notificationType].message,
+        description: notificationInfos[notificationType].description,
+        className: `custom-notification-${notificationType}`,
+      });
+
+      setShowNotification(false);
+    }
+  }, [
+    notificationApi,
+    showNotification,
+    notificationType,
+    setShowNotification,
+  ]);
+
   return (
     <div className="mx-auto max-w-md h-min p-8 rounded-lg bg-white shadow-md flex flex-col">
+      {contextHolder}
       <Title level={3} className="text-center mb-4">
         Hello {userData?.user.name} 👋
       </Title>
