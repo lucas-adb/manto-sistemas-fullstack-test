@@ -2,6 +2,8 @@ import { Button, Form, Input, type FormProps } from 'antd';
 import { api } from '../lib/api';
 import { useState } from 'react';
 import { Typography } from 'antd';
+import userStore from '../stores/userStore';
+import type { UserData } from '../types/user';
 
 const { Title, Text } = Typography;
 
@@ -23,6 +25,7 @@ async function mockLoading(timeout: number, log: string) {
 function LoginForm() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { setUserData, userData } = userStore();
 
   const signIn = async (values: FieldType) => {
     const { email, password } = values;
@@ -39,7 +42,7 @@ function LoginForm() {
         }),
       });
 
-      console.log('data', data);
+      setUserData(data as UserData);
     } catch (error) {
       console.error('Error signing in:', error);
     }
@@ -87,13 +90,15 @@ function LoginForm() {
   return (
     <div className="mx-auto max-w-md h-min p-8 rounded-lg bg-white shadow-md flex flex-col">
       <Title level={3} className="text-center mb-4">
-        Hello 👋
+        Hello {userData?.user.name} 👋
       </Title>
 
-      <Text className="mx-auto mb-6">
-        Let's finish what you started.
-      </Text>
-      <Form onFinish={onFinish} onFinishFailed={onFinishFailed} layout='vertical'>  
+      <Text className="mx-auto mb-6">Let's finish what you started.</Text>
+      <Form
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        layout="vertical"
+      >
         <Form.Item<FieldType>
           name="email"
           label="Email"
@@ -113,7 +118,12 @@ function LoginForm() {
         <Form.Item<FieldType>
           name="name"
           label="Username"
-          rules={[{ required: isRegistering ? true : false, message: 'Please input your username!' }]}
+          rules={[
+            {
+              required: isRegistering ? true : false,
+              message: 'Please input your username!',
+            },
+          ]}
           className={isRegistering ? '' : 'invisible'}
         >
           <Input placeholder="Username" />

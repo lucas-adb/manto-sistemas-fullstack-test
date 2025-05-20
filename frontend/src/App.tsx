@@ -1,31 +1,22 @@
 import { useEffect } from 'react';
-import { api } from './lib/api';
 import { Flex, Layout } from 'antd';
 import { Typography } from 'antd';
 const { Title } = Typography;
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import LoginForm from './components/LoginForm';
+import userStore from './stores/userStore';
+import { useNavigate } from 'react-router';
 
 function App() {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await api('/tasks', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            // Authorization: `Bearer ${localStorage.getItem('token')}`,
-            Authorization: `Bearer ${import.meta.env.VITE_TOKEN_TEST}`, // testes
-          },
-        });
-        console.log(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
 
-    fetchData();
-  }, []);
+  const { userData } = userStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userData && userData.user.name) {
+      navigate('/tasks')
+    }
+  }, [navigate, userData])
 
   return (
     <Flex vertical className="h-screen bg-gray-100">
