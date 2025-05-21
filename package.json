@@ -1,20 +1,16 @@
 {
   "name": "manto-sistemas-fullstack-test",
   "version": "1.0.0",
-  "description": "Este projeto é um monorepo que contém uma aplicação fullstack, dividida em duas partes: backend e frontend.",
-  "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
+  "description": "Este projeto é um monorepo que contém uma aplicação fullstack, dividida em duas partes: **backend** e **frontend**.",
+  "main": "index.js",
   "scripts": {
-    "install": "npm install --workspaces",
-    "start:backend": "npm run start --workspace backend",
-    "start:frontend": "npm run start --workspace frontend",
-    "build:frontend": "npm run build --workspace frontend",
-    "build:backend": "npm run build --workspace backend"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["crud", "fullstack", "typescript", "express", "react"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucas-adb/manto-sistemas-fullstack-test.git"
+  },
+  "keywords": ["crud", "fullstack", "typescript", "nodejs", "react", "monorepo", "express", "prisma", "mysql"],
   "author": "Lucas Alves",
   "license": "ISC"
 }

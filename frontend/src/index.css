@@ -1,0 +1,19 @@
+@layer theme, base, antd, components, utilities;
+@import "tailwindcss";
+
+/* Estilos personalizados para notificações */
+.custom-notification-success .ant-notification-notice-icon {
+  color: #52c41a !important;
+}
+
+.custom-notification-info .ant-notification-notice-icon {
+  color: #1890ff !important;
+}
+
+.custom-notification-warning .ant-notification-notice-icon {
+  color: #faad14 !important;
+}
+
+.custom-notification-error .ant-notification-notice-icon {
+  color: #ff4d4f !important;
+}

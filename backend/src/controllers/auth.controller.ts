@@ -22,7 +22,7 @@ export const register = async (req: Request, res: Response) => {
 
     return res.status(201).json({
       message: 'Usuário registrado com sucesso',
-      user: { id: user.id, username: user.name },
+      user: { id: user.id, email: user.email, name: user.name },
     });
   } catch (err) {
     return res.status(500).json({ error: 'Erro interno' });
@@ -46,7 +46,10 @@ export const login = async (req: Request, res: Response) => {
       expiresIn: '1d',
     });
 
-    return res.json({ token, user: { id: user.id, name: user.name } });
+    return res.json({
+      token,
+      user: { id: user.id, email: user.email, name: user.name },
+    });
   } catch (err) {
     return res.status(500).json({ error: 'Erro interno' });
   }
