@@ -6,6 +6,11 @@ export async function api<T>(endpoint: string, config?: RequestInit): Promise<T>
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
+
+  // Verifica status 204 No Content
+  if (response.status === 204) {
+    return null as unknown as T;
+  }
   
   return response.json();
 }
