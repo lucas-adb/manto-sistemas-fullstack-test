@@ -1,10 +1,10 @@
 import { Button, Form, Input, type FormProps } from 'antd';
-import { api } from '../lib/api';
 import { useState } from 'react';
 import { Typography } from 'antd';
 import userStore from '../stores/userStore';
 import type { UserData } from '../types/user';
 import { useNotifications } from '../hooks/useNotifications';
+import { authService } from '../services/auth';
 
 const { Title, Text } = Typography;
 
@@ -34,16 +34,7 @@ function LoginForm() {
     const { email, password } = values;
 
     try {
-      const data = await api('/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+      const data = await authService.login(email, password);
 
       setUserData(data as UserData);
       return data as UserData;
@@ -56,19 +47,11 @@ function LoginForm() {
   const signUp = async (values: FieldType): Promise<void> => {
     const { email, password, name } = values;
     try {
-      const response = await api('/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          name,
-        }),
-      });
+      if (!name) {
+        throw new Error('Name is required for registration');
+      }
 
-      console.log('data', response);
+      await authService.register(name, email, password);
     } catch (error) {
       console.error('Error signing up:', error);
       throw error;

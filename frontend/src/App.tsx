@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { Flex, Layout } from 'antd';
-import { Typography } from 'antd';
-const { Title } = Typography;
-import { Content, Footer, Header } from 'antd/es/layout/layout';
+import { Content, Footer } from 'antd/es/layout/layout';
 import LoginForm from './components/LoginForm';
 import userStore from './stores/userStore';
 import { useNavigate } from 'react-router';
+import MainHeader from './components/MainHeader';
 
 function App() {
 
@@ -21,9 +20,7 @@ function App() {
   return (
     <Flex vertical className="h-screen bg-gray-100">
       <Layout>
-        <Header className='py-2 mb-0'>
-          <Title className="text-white">Fini</Title>
-        </Header>
+        <MainHeader isLoggedIn={!!userData} />
         <Content className="flex p-5">
           <LoginForm />
         </Content>

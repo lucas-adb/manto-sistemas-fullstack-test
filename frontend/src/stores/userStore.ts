@@ -7,6 +7,10 @@ const userStore = create(
     (set) => ({
       userData: null,
       setUserData: (data) => set({ userData: data }),
+      clearUserData: () => {
+        set({ userData: null });
+        localStorage.removeItem('user-manto');
+      },
     }),
     {
       name: 'user-manto',

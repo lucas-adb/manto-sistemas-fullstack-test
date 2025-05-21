@@ -3,13 +3,14 @@ import userStore from '../stores/userStore';
 
 import { Flex, Layout, Radio, type RadioChangeEvent } from 'antd';
 import { Typography } from 'antd';
-import { Content, Footer, Header } from 'antd/es/layout/layout';
+import { Content, Footer } from 'antd/es/layout/layout';
 import TaskForm from '../components/TaskForm';
 import { tasksService } from '../services/tasks';
 import tasksStore from '../stores/tasksStore';
 import type { FilterType } from '../stores/tasksStore';
 import { Circle, CircleCheck, X } from 'lucide-react';
 import { useNotifications } from '../hooks/useNotifications';
+import MainHeader from '../components/MainHeader';
 
 const { Title } = Typography;
 
@@ -102,9 +103,7 @@ function TasksPage() {
     <Flex vertical className="h-screen bg-gray-100">
       <Layout>
         {contextHolder}
-        <Header className="py-2 mb-0">
-          <Title className="text-white">Fini</Title>
-        </Header>
+          <MainHeader isLoggedIn={!!userData} />
         <Content className="flex p-5 overflow-y-auto">
           <div className="mx-auto max-w-md h-min p-8 rounded-lg bg-white shadow-md flex flex-col gap-2">
             <TaskForm />

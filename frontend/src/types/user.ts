@@ -12,4 +12,5 @@ export type UserData = {
 export type UserStore = {
   userData: UserData | null;
   setUserData: (data: UserData) => void;
+  clearUserData: () => void;
 };
