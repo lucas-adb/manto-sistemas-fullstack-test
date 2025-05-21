@@ -32,7 +32,7 @@ function TaskForm() {
         console.error('Token not found');
         openNotificationWithIcon(
           'error',
-          'Erro de Autenticação',
+          'Authentication Error',
           'Você precisa estar logado para criar tarefas.'
         );
         return;
@@ -46,16 +46,16 @@ function TaskForm() {
       addTask(data);
       openNotificationWithIcon(
         'success',
-        'Tarefa Criada',
-        'Sua tarefa foi criada com sucesso!'
+        'Task Created',
+        'A tarefa foi criada com sucesso.'
       );
       form.resetFields();
     } catch (error) {
       console.error('Error creating task:', error);
       openNotificationWithIcon(
         'error',
-        'Erro ao Criar Tarefa',
-        'Não foi possível criar a tarefa. Tente novamente.'
+        'Error when creating task',
+        'Creating the task failed.'
       );
     } finally {
       setIsLoading(false);
@@ -67,8 +67,8 @@ function TaskForm() {
     console.log('Failed:', errorInfo);
     openNotificationWithIcon(
       'warning',
-      'Formulário Inválido',
-      'Por favor, preencha corretamente todos os campos obrigatórios.'
+      'Form Validation Failed',
+      'Please check the form fields.'
     );
   };
 

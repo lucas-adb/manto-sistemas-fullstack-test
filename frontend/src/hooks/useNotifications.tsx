@@ -4,20 +4,20 @@ export type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 export const notificationInfos = {
   success: {
-    message: 'Sucesso',
-    description: 'Operação realizada com sucesso.',
+    message: 'Success',
+    description: 'This is a success notification.',
   },
   info: {
-    message: 'Informação',
-    description: 'Esta é uma notificação informativa.',
+    message: 'Info',
+    description: 'This is an info notification.',
   },
   warning: {
-    message: 'Aviso',
-    description: 'Este é um aviso importante.',
+    message: 'Warning',
+    description: 'Warning: This is a warning notification.',
   },
   error: {
-    message: 'Erro',
-    description: 'Algo deu errado. Por favor, tente novamente.',
+    message: 'Error',
+    description: 'Something went wrong.',
   },
 };
 
