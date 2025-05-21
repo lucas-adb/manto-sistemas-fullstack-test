@@ -1,39 +1,18 @@
-import { Button, Form, Input, notification, type FormProps } from 'antd';
+import { Button, Form, Input, type FormProps } from 'antd';
 import { api } from '../lib/api';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Typography } from 'antd';
 import userStore from '../stores/userStore';
 import type { UserData } from '../types/user';
+import { useNotifications } from '../hooks/useNotifications';
 
 const { Title, Text } = Typography;
-
-// right now, the only used is the error one
-const notificationInfos = {
-  success: {
-    message: 'Success',
-    description: 'You have successfully logged in.',
-  },
-  info: {
-    message: 'Info',
-    description: 'This is an info notification.',
-  },
-  warning: {
-    message: 'Warning',
-    description: 'This is a warning notification.',
-  },
-  error: {
-    message: 'Erro',
-    description: 'Something went wrong. Please try again.',
-  },
-};
 
 type FieldType = {
   name?: string;
   email: string;
   password: string;
 };
-
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 async function mockLoading(timeout: number, log: string) {
   return await new Promise((resolve) => {
@@ -47,10 +26,7 @@ async function mockLoading(timeout: number, log: string) {
 function LoginForm() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationType, setNotificationType] =
-    useState<NotificationType>('success');
-  const [notificationApi, contextHolder] = notification.useNotification();
+  const { openNotificationWithIcon, contextHolder } = useNotifications();
 
   const { setUserData, userData } = userStore();
 
@@ -132,29 +108,6 @@ function LoginForm() {
   ) => {
     console.log('Failed:', errorInfo);
   };
-
-  // Função para definir o tipo e mostrar a notificação
-  const openNotificationWithIcon = (type: NotificationType) => {
-    setNotificationType(type);
-    setShowNotification(true);
-  };
-
-  useEffect(() => {
-    if (showNotification) {
-      notificationApi[notificationType]({
-        message: notificationInfos[notificationType].message,
-        description: notificationInfos[notificationType].description,
-        className: `custom-notification-${notificationType}`,
-      });
-
-      setShowNotification(false);
-    }
-  }, [
-    notificationApi,
-    showNotification,
-    notificationType,
-    setShowNotification,
-  ]);
 
   return (
     <div className="mx-auto max-w-md h-min p-8 rounded-lg bg-white shadow-md flex flex-col">
