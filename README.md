@@ -35,7 +35,7 @@ Este projeto é um monorepo que contém uma aplicação fullstack, dividida em d
 
 ## Testes
 
-Para executar os testes, você pode rodar o seguinte comando no diretório do backend ou frontend:
+Para executar os testes, você pode rodar o seguinte comando no diretório do backend:
 
 ```
 npm test

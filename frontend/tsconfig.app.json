@@ -23,5 +23,19 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+
+  "types": [
+    "node",
+    "react",
+    "react-dom",
+    "@babel/core",
+    "@babel/generator",
+    "@babel/template",
+    "@babel/traverse",
+    "estree",
+    "json-schema"
+  ],
+  "typeRoots": ["./node_modules/@types"],
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
