@@ -16,4 +16,4 @@ cmds = [
 cmds = ["npm run build"]
 
 [start]
-cmd = "npx prisma generate && npx prisma migrate deploy && node dist/index.js"
+cmd = "npm run prisma:generate && npx prisma migrate deploy && node dist/index.js"

@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/prisma'
+import { PrismaClient } from '../../generated/client'
 
 // Determinar qual URL do banco de dados usar com base no ambiente
 const databaseUrl = process.env.NODE_ENV === 'test' 
