@@ -1,0 +1,19 @@
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+aptPkgs = ["nodejs"]
+
+[variables]
+NODE_ENV = "production"
+NPM_VERSION = "9.6.7"
+
+[phases.install]
+cmds = [
+    "npm install -g npm@${NPM_VERSION}",
+    "npm install --production=false"
+]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm run prisma:generate && npx prisma migrate deploy && node dist/index.js"
