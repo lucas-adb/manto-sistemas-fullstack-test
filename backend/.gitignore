@@ -150,5 +150,6 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node
 
 # Prisma
-**/src/generated/prisma/
-src/generated/prisma/
+**/src/generated/
+/generated/
+**/generated/client/
